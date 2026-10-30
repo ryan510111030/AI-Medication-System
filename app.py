@@ -483,6 +483,9 @@ def history():
         selected_date=selected_date
     )
 
+
+# 啟動 Flask 網站前，先初始化資料庫
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
