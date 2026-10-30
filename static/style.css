@@ -1,0 +1,652 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    background: #f0f6fc;
+    color: #243447;
+}
+
+/* 整體版面 */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 左側選單 */
+.sidebar {
+    width: 250px;
+    background: #1769aa;
+    color: white;
+    padding: 25px 20px;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    font-size: 23px;
+    margin-bottom: 5px;
+}
+
+.sidebar p {
+    font-size: 13px;
+    color: #d8eaf8;
+}
+
+.sidebar nav {
+    margin-top: 35px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #3287c7;
+}
+
+/* 主要內容 */
+.main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 35px;
+}
+
+header h1 {
+    color: #1769aa;
+    font-size: 29px;
+}
+
+header p {
+    color: #687b8d;
+}
+
+.main-content h2 {
+    color: #1769aa;
+    margin-top: 30px;
+}
+
+/* 歡迎卡片 */
+.welcome-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.welcome-card h2 {
+    margin-top: 0;
+}
+
+/* 統計卡片 */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.stat-card h3 {
+    font-size: 17px;
+    color: #52687b;
+}
+
+.number {
+    font-size: 38px;
+    font-weight: bold;
+    color: #1769aa;
+    margin: 12px 0;
+}
+
+.stat-card span {
+    color: #788b9b;
+    font-size: 14px;
+}
+
+/* 功能卡片 */
+.features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border-left: 5px solid #3287c7;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.feature-card h3 {
+    color: #1769aa;
+}
+
+.feature-card p {
+    line-height: 1.7;
+    color: #52687b;
+}
+
+/* 頁尾 */
+footer {
+    margin-top: 40px;
+    color: #8293a2;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* 小螢幕排版 */
+@media (max-width: 800px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .stats,
+    .features {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 新增藥品表單 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #243447;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd9e5;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    background: #ffffff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3287c7;
+}
+
+.save-btn {
+    background: #1769aa;
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background: #3287c7;
+}
+
+/* 用藥清單區域 */
+.medication-list {
+    margin-top: 25px;
+}
+
+/* 新增藥品表單 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #243447;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd9e5;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    background: #ffffff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3287c7;
+}
+
+.save-btn {
+    background: #1769aa;
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background: #3287c7;
+}
+
+/* 用藥清單區域 */
+.medication-list {
+    margin-top: 25px;
+}
+
+/* 藥品清單卡片 */
+.medicine-item {
+    background: #f4f9fd;
+    border: 1px solid #dceaf5;
+    border-left: 5px solid #3287c7;
+    padding: 18px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.medicine-item h3 {
+    color: #1769aa;
+    margin-top: 0;
+}
+
+.medicine-item p {
+    color: #52687b;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* 藥品清單卡片 */
+.medicine-item {
+    background: #f4f9fd;
+    border: 1px solid #dceaf5;
+    border-left: 5px solid #3287c7;
+    padding: 18px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.medicine-item h3 {
+    color: #1769aa;
+    margin-top: 0;
+}
+
+.medicine-item p {
+    color: #52687b;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* 刪除藥品按鈕 */
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+/* 修改藥品按鈕 */
+.edit-btn {
+    display: inline-block;
+    background: #f39c12;
+    color: white;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-top: 12px;
+}
+
+.edit-btn:hover {
+    background: #d68910;
+}
+
+/* 取消按鈕 */
+.cancel-btn {
+    display: inline-block;
+    background: #95a5a6;
+    color: white;
+    text-decoration: none;
+    padding: 13px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.cancel-btn:hover {
+    background: #7f8c8d;
+}
+
+/* 用藥提醒狀態 */
+.reminder-status {
+    display: inline-block;
+    background-color: #eef2f6;
+    color: #52687b;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* 已服用按鈕 */
+.taken-btn {
+    background-color: #198754;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.taken-btn:hover {
+    background-color: #146c43;
+}
+
+/* 已服用狀態 */
+.taken-status {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+/* 提醒操作按鈕排列 */
+.reminder-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* 稍後處理按鈕 */
+.later-btn {
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.later-btn:hover {
+    background-color: #d68910;
+}
+
+/* 稍後處理狀態 */
+.later-status {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* 表格容器 */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+/* 今日服藥紀錄表 */
+.record-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.record-table th {
+    background: #1769aa;
+    color: white;
+    padding: 14px;
+    text-align: left;
+}
+
+.record-table td {
+    padding: 14px;
+    border-bottom: 1px solid #e5edf3;
+    color: #52687b;
+}
+
+.record-table tbody tr:hover {
+    background: #f4f9fd;
+}
+
+/* 已服用標籤 */
+.record-taken {
+    background: #d1e7dd;
+    color: #0f5132;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* 稍後處理標籤 */
+.record-later {
+    background: #fff3cd;
+    color: #856404;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* 今日用藥統計區 */
+.reminder-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin: 25px 0;
+}
+
+/* 統計卡片 */
+.stat-box {
+    background: white;
+    border-radius: 12px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.stat-box h3 {
+    font-size: 16px;
+    color: #52687b;
+    margin: 0 0 15px;
+}
+
+.stat-box p {
+    font-size: 34px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* 各統計數字顏色 */
+.stat-total p {
+    color: #1769aa;
+}
+
+.stat-taken p {
+    color: #198754;
+}
+
+.stat-later p {
+    color: #d68910;
+}
+
+.stat-pending p {
+    color: #64748b;
+}
+
+/* 小螢幕自動調整 */
+@media (max-width: 1100px) {
+    .reminder-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .reminder-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 歷史紀錄查詢表單 */
+.history-search {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.history-search label {
+    color: #52687b;
+    font-weight: bold;
+}
+
+.history-search input[type="date"] {
+    padding: 12px;
+    border: 1px solid #dceaf5;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.history-search .save-btn {
+    margin-top: 0;
+}
+
+/* 提醒視窗背景 */
+.reminder-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 提醒視窗主體 */
+.reminder-modal-content {
+    background: white;
+    width: 100%;
+    max-width: 430px;
+    padding: 35px 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-icon {
+    font-size: 55px;
+    margin-bottom: 12px;
+}
+
+.reminder-modal-content h2 {
+    color: #1769aa;
+    margin-bottom: 18px;
+}
+
+.reminder-modal-content h3 {
+    color: #34495e;
+    margin-bottom: 12px;
+}
+
+.reminder-modal-content p {
+    color: #52687b;
+}
+
+.modal-note {
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+/* 操作按鈕 */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.modal-actions .taken-btn,
+.modal-actions .later-btn {
+    margin-top: 0;
+}
+
+/* 關閉按鈕 */
+.modal-close-btn {
+    margin-top: 20px;
+    background: transparent;
+    border: none;
+    color: #64748b;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.modal-close-btn:hover {
+    color: #1769aa;
+}
+
+/* 彈出動畫 */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

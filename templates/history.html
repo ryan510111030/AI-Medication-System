@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>服藥歷史紀錄</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- 左側選單 -->
+    <aside class="sidebar">
+        <h2>💊 用藥小幫手</h2>
+        <p>AI Medication System</p>
+
+        <nav>
+            <a href="/">🏠 系統首頁</a>
+            <a href="/medication">💊 用藥清單</a>
+            <a href="/reminder">⏰ 用藥提醒</a>
+            <a href="/history" class="active">📅 歷史紀錄</a>
+            <a href="#">🤖 AI 衛教</a>
+            <a href="#">📝 問題整理</a>
+        </nav>
+    </aside>
+
+    <!-- 主要內容 -->
+    <main class="main-content">
+
+        <header>
+            <h1>📅 服藥歷史紀錄</h1>
+            <p>依日期查詢已記錄的用藥狀態</p>
+        </header>
+
+        <!-- 日期查詢 -->
+        <section class="welcome-card">
+
+            <h2>🔍 查詢服藥紀錄</h2>
+
+            <form method="GET" action="/history"
+                  class="history-search">
+
+                <label for="history-date">
+                    選擇日期：
+                </label>
+
+                <input
+                    type="date"
+                    id="history-date"
+                    name="date"
+                    value="{{ selected_date }}"
+                    required
+                >
+
+                <button type="submit" class="save-btn">
+                    🔍 查詢紀錄
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- 查詢結果 -->
+        <section class="welcome-card medication-list">
+
+            <h2>📋 {{ selected_date }} 服藥紀錄</h2>
+
+            {% if records %}
+
+            <div class="table-container">
+
+                <table class="record-table">
+
+                    <thead>
+                        <tr>
+                            <th>藥品名稱</th>
+                            <th>預定時間</th>
+                            <th>服藥狀態</th>
+                            <th>紀錄時間</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in records %}
+
+                        <tr>
+                            <td>{{ record["name"] }}</td>
+
+                            <td>{{ record["time"] }}</td>
+
+                            <td>
+                                {% if record["status"] == "已服用" %}
+
+                                    <span class="record-taken">
+                                        ✅ 已服用
+                                    </span>
+
+                                {% elif record["status"] == "稍後處理" %}
+
+                                    <span class="record-later">
+                                        ⏳ 稍後處理
+                                    </span>
+
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ record["recorded_at"][11:16] }}
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <p>此日期沒有已儲存的服藥紀錄。</p>
+
+            {% endif %}
+
+        </section>
+
+        <section class="welcome-card medication-list">
+            <p>
+                ⚠️ 本頁僅顯示使用者自行記錄的狀態，
+                不代表系統已驗證實際服藥。
+            </p>
+        </section>
+
+        <footer>
+            學校專題展示版本｜目前使用模擬資料
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+
+# Python 快取
+__pycache__/
+*.pyc
+
+# 虛擬環境
+venv/
+.venv/
+
+# SQLite 資料庫
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# 環境變數與機密設定
+.env
+.env.*
+
+# 編輯器與系統暫存檔
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用藥清單管理</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <h2>💊 用藥小幫手</h2>
+        <p>AI Medication System</p>
+
+        <nav>
+            <a href="/">🏠 系統首頁</a>
+            <a href="/medication" class="active">💊 用藥清單</a>
+            <a href="/reminder">⏰ 用藥提醒</a>
+            <a href="/history">📅 歷史紀錄</a>
+            <a href="#">🤖 AI 衛教</a>
+            <a href="#">📝 問題整理</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <h1>💊 用藥清單管理</h1>
+            <p>管理每日藥品與服藥時程</p>
+        </header>
+
+        
+    <section class="welcome-card">
+        <h2>➕ 新增藥品</h2>
+        <p>請依照藥袋上的資訊填寫，確認無誤後再儲存。</p>
+
+        <form id="medication-form" method="POST" action="/medication">
+            <div class="form-group">
+                <label for="medicine-name">藥品名稱</label>
+                <input type="text"
+                    id="medicine-name"
+                    name="medicine_name"
+                    placeholder="例如：範例藥品 A"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="medicine-time">服藥時間</label>
+                <input type="time"
+                    id="medicine-time"
+                    name="medicine_time"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="medicine-note">藥袋指示</label>
+                <textarea id="medicine-note"
+                        name="medicine_note"
+                        rows="4"
+                        placeholder="請輸入藥袋上的原始指示"
+                        required></textarea>
+            </div>
+
+            <button type="submit" class="save-btn">
+                💾 儲存藥品
+            </button>
+
+        </form>
+    </section>
+
+
+    <section class="welcome-card medication-list">
+        <h2>💊 我的用藥清單</h2>
+
+        {% if medications %}
+
+            {% for medicine in medications %}
+            <div class="medicine-item">
+                <h3>💊 {{ medicine["name"] }}</h3>
+
+                <p>
+                    ⏰ 服藥時間：
+                    {{ medicine["time"] }}
+                </p>
+
+                <p>
+                    📋 藥袋指示：
+                    {{ medicine["note"] }}
+                </p>
+                
+            <form
+                action="{{ url_for('delete_medication', medicine_id=medicine['id']) }}"
+                method="POST"
+                onsubmit="return confirm('確定要刪除這筆藥品資料嗎？');"
+            >
+                <button type="submit" class="delete-btn">
+                    🗑️ 刪除藥品
+                </button>
+            </form>
+
+            <a href="{{ url_for('edit_medication', medicine_id=medicine['id']) }}"
+            class="edit-btn">
+                ✏️ 修改藥品
+            </a>
+
+            </div>
+            {% endfor %}
+
+        {% else %}
+
+            <p>目前尚未新增任何藥品。</p>
+
+        {% endif %}
+    </section>
+
+
+        <footer>
+            學校專題展示版本｜目前使用模擬資料
+        </footer>
+    </main>
+
+</div>
+</body>
+</html>

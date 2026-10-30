@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智慧用藥管理系統</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- 左側選單 -->
+    <aside class="sidebar">
+        <h2>💊 用藥小幫手</h2>
+        <p>AI Medication System</p>
+
+        <nav>
+            <a href="/" class="active">🏠 系統首頁</a>
+            <a href="/medication">💊 用藥清單</a>
+            <a href="/reminder">⏰ 用藥提醒</a>
+            <a href="/history">📅 歷史紀錄</a>
+            <a href="#">🤖 AI 衛教</a>
+            <a href="#">📝 問題整理</a>
+        </nav>
+    </aside>
+
+    <!-- 右側主要內容 -->
+    <main class="main-content">
+
+        <header>
+            <h1>AI 智慧用藥管理與衛教輔助系統</h1>
+            <p>歡迎使用智慧用藥管理系統</p>
+        </header>
+
+        <section class="welcome-card">
+            <h2>👋 歡迎回來！</h2>
+            <p>透過智慧管理，輕鬆掌握每日用藥資訊。</p>
+            <p>目前使用示範帳號及模擬資料。</p>
+        </section>
+
+        <h2>📊 今日用藥概況</h2>
+
+        <section class="stats">
+            
+            <!-- 今日用藥項目 -->
+            <div class="stat-card">
+                <h3>💊 今日用藥項目</h3>
+                <p>{{ total_count }}</p>
+            </div>
+
+            <!-- 今日已服用 -->
+            <div class="stat-card">
+                <h3>✅ 已服用</h3>
+                <p>{{ taken_count }}</p>
+            </div>
+
+            <!-- 今日稍後處理 -->
+            <div class="stat-card">
+                <h3>⏳ 稍後處理</h3>
+                <p>{{ later_count }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>⚪ 尚未記錄</h3>
+                <p>{{ pending_count }}</p>
+            </div>
+
+        <h2>🚀 系統主要功能</h2>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>💊 用藥清單</h3>
+                <p>新增與管理藥品名稱、時程及藥袋指示。</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>⏰ 用藥提醒</h3>
+                <p>查看提醒時間並記錄服用狀態。</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🤖 AI 衛教</h3>
+                <p>將核對過的衛教原文整理成白話摘要。</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>📝 問題整理</h3>
+                <p>整理用藥疑問，方便向醫師或藥師詢問。</p>
+            </div>
+        </section>
+
+        <footer>
+            學校專題展示版本｜目前使用模擬資料
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

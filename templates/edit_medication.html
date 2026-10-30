@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改藥品資料</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <h2>💊 用藥小幫手</h2>
+        <p>AI Medication System</p>
+
+        <nav>
+            <a href="/">🏠 系統首頁</a>
+            <a href="/medication" class="active">💊 用藥清單</a>
+            <a href="/reminder">⏰ 用藥提醒</a>
+            <a href="/history">📅 歷史紀錄</a>
+            <a href="#">🤖 AI 衛教</a>
+            <a href="#">📝 問題整理</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        <header>
+            <h1>✏️ 修改藥品資料</h1>
+            <p>請依照已確認的藥袋資訊修改資料</p>
+        </header>
+
+        <section class="welcome-card">
+
+            <h2>藥品資料編輯</h2>
+
+            <form method="POST">
+
+                <div class="form-group">
+                    <label for="medicine-name">藥品名稱</label>
+                    <input type="text"
+                           id="medicine-name"
+                           name="medicine_name"
+                           value="{{ medicine['name'] }}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="medicine-time">服藥時間</label>
+                    <input type="time"
+                           id="medicine-time"
+                           name="medicine_time"
+                           value="{{ medicine['time'] }}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="medicine-note">藥袋指示</label>
+                    <textarea id="medicine-note"
+                              name="medicine_note"
+                              rows="4"
+                              required>{{ medicine['note'] }}</textarea>
+                </div>
+
+                <button type="submit" class="save-btn">
+                    💾 儲存修改
+                </button>
+
+                <a href="/medication" class="cancel-btn">
+                    取消
+                </a>
+
+            </form>
+
+        </section>
+
+        <footer>
+            學校專題展示版本｜目前使用模擬資料
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

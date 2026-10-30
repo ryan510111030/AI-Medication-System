@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>用藥提醒與紀錄</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<div class="layout">
+
+    <!-- 左側選單 -->
+    <aside class="sidebar">
+        <h2>💊 用藥小幫手</h2>
+        <p>AI Medication System</p>
+
+        <nav>
+            <a href="/">🏠 系統首頁</a>
+            <a href="/medication">💊 用藥清單</a>
+            <a href="/reminder" class="active">⏰ 用藥提醒</a>
+            <a href="/history">📅 歷史紀錄</a>
+            <a href="#">🤖 AI 衛教</a>
+            <a href="#">📝 問題整理</a>
+        </nav>
+    </aside>
+
+    <!-- 主要內容 -->
+    <main class="main-content">
+
+        <header>
+            <h1>⏰ 用藥提醒與紀錄</h1>
+            <p>查看今日預定用藥及服藥紀錄</p>
+        </header>
+
+        <!-- 今日用藥統計 -->
+        <section class="reminder-stats">
+
+            <div class="stat-box stat-total">
+                <h3>💊 今日用藥項目</h3>
+                <p>{{ total_count }}</p>
+            </div>
+
+            <div class="stat-box stat-taken">
+                <h3>✅ 已服用</h3>
+                <p>{{ taken_count }}</p>
+            </div>
+
+            <div class="stat-box stat-later">
+                <h3>⏳ 稍後處理</h3>
+                <p>{{ later_count }}</p>
+            </div>
+
+            <div class="stat-box stat-pending">
+                <h3>⚪ 尚未記錄</h3>
+                <p>{{ pending_count }}</p>
+            </div>
+
+        </section>
+
+        <!-- 今日提醒 -->
+        
+        <section class="welcome-card">
+
+            <h2>📅 用藥時程清單</h2>
+
+            {% if medications %}
+
+                {% for medicine in medications %}
+
+                <div class="medicine-item">
+
+                    <h3>💊 {{ medicine["name"] }}</h3>
+
+                    <p>
+                        ⏰ 服藥時間：
+                        {{ medicine["time"] }}
+                    </p>
+
+                    <p>
+                        📋 藥袋指示：
+                        {{ medicine["note"] }}
+                    </p>
+
+                    
+                
+            {% if medicine["status"] == "已服用" %}
+
+                <p class="reminder-status taken-status">
+                    ✅ 已記錄服用
+                </p>
+
+                <p>
+                    🕒 紀錄時間：
+                    {{ medicine["recorded_at"] }}
+                </p>
+
+            {% elif medicine["status"] == "稍後處理" %}
+
+                <p class="reminder-status later-status">
+                    ⏳ 稍後處理
+                </p>
+
+                <p>
+                    🕒 狀態更新時間：
+                    {{ medicine["recorded_at"] }}
+                </p>
+
+                <form
+                    action="{{ url_for('mark_taken', medicine_id=medicine['id']) }}"
+                    method="POST"
+                >
+                    <button type="submit" class="taken-btn">
+                        ✅ 已服用
+                    </button>
+                </form>
+
+            {% else %}
+
+                <p class="reminder-status">
+                    ⚪ 尚未記錄
+                </p>
+
+                <div class="reminder-actions">
+
+                    <form
+                        action="{{ url_for('mark_taken', medicine_id=medicine['id']) }}"
+                        method="POST"
+                    >
+                        <button type="submit" class="taken-btn">
+                            ✅ 已服用
+                        </button>
+                    </form>
+
+                    <form
+                        action="{{ url_for('mark_later', medicine_id=medicine['id']) }}"
+                        method="POST"
+                    >
+                        <button type="submit" class="later-btn">
+                            ⏳ 稍後處理
+                        </button>
+                    </form>
+
+                </div>
+
+            {% endif %}
+
+
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>目前尚未建立任何用藥時程。</p>
+
+                <a href="/medication" class="edit-btn">
+                    ➕ 前往新增藥品
+                </a>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- 服藥紀錄 -->
+        
+        <section class="welcome-card medication-list">
+
+            <h2>📋 今日服藥紀錄</h2>
+
+            <p>📅 日期：{{ today }}</p>
+
+            {% if records %}
+
+            <div class="table-container">
+
+                <table class="record-table">
+
+                    <thead>
+                        <tr>
+                            <th>藥品名稱</th>
+                            <th>預定時間</th>
+                            <th>服藥狀態</th>
+                            <th>紀錄時間</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in records %}
+
+                        <tr>
+                            <td>{{ record["name"] }}</td>
+
+                            <td>{{ record["time"] }}</td>
+
+                            <td>
+                                {% if record["status"] == "已服用" %}
+
+                                    <span class="record-taken">
+                                        ✅ 已服用
+                                    </span>
+
+                                {% elif record["status"] == "稍後處理" %}
+
+                                    <span class="record-later">
+                                        ⏳ 稍後處理
+                                    </span>
+
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ record["recorded_at"][11:16] }}
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <p>今天尚未建立任何服藥紀錄。</p>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- 安全提醒 -->
+        <section class="welcome-card medication-list">
+            <h2>⚠️ 使用注意事項</h2>
+
+            <p>
+                本系統為學校專題展示版本，
+                目前使用模擬資料。
+            </p>
+
+            <p>
+                系統提醒僅依照使用者確認的時程，
+                不會自行調整藥物劑量或服藥時間。
+            </p>
+        </section>
+
+        <footer>
+            學校專題展示版本｜目前使用模擬資料
+        </footer>
+
+    </main>
+</div>
+
+
+<!-- 用藥提醒彈出視窗 -->
+<div id="reminder-modal" class="reminder-modal">
+
+    <div class="reminder-modal-content">
+
+        <div class="modal-icon">⏰</div>
+
+        <h2>用藥時間到了！</h2>
+
+        <h3 id="modal-medicine-name"></h3>
+
+        <p id="modal-medicine-time"></p>
+
+        <p class="modal-note">
+            請核對已確認的藥袋指示
+        </p>
+
+        <div class="modal-actions">
+
+            <form id="modal-taken-form" method="POST">
+                <button type="submit" class="taken-btn">
+                    ✅ 已服用
+                </button>
+            </form>
+
+            <form id="modal-later-form" method="POST">
+                <button type="submit" class="later-btn">
+                    ⏳ 稍後處理
+                </button>
+            </form>
+
+        </div>
+
+        <button type="button"
+                class="modal-close-btn"
+                onclick="closeReminderModal()">
+            關閉提醒
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+    // 從 Flask 取得用藥資料
+    const medications = JSON.parse('{{ medications | tojson | safe }}');
+
+    // 本次開啟頁面已提醒的藥品
+    const remindedItems = new Set();
+
+    // 等待顯示的提醒佇列
+    const reminderQueue = [];
+
+    // 目前是否正在顯示提醒
+    let modalOpen = false;
+
+    // 顯示提醒視窗
+    function showReminderModal() {
+
+        if (modalOpen || reminderQueue.length === 0) {
+            return;
+        }
+
+        const medicine = reminderQueue.shift();
+
+        document.getElementById(
+            "modal-medicine-name"
+        ).textContent = "💊 " + medicine.name;
+
+        document.getElementById(
+            "modal-medicine-time"
+        ).textContent = "預定時間：" + medicine.time;
+
+        document.getElementById(
+            "modal-taken-form"
+        ).action = "/medication/taken/" + medicine.id;
+
+        document.getElementById(
+            "modal-later-form"
+        ).action = "/medication/later/" + medicine.id;
+
+        document.getElementById(
+            "reminder-modal"
+        ).style.display = "flex";
+
+        modalOpen = true;
+    }
+
+    // 關閉提醒視窗
+    function closeReminderModal() {
+
+        document.getElementById(
+            "reminder-modal"
+        ).style.display = "none";
+
+        modalOpen = false;
+
+        // 顯示下一筆等待中的提醒
+        showReminderModal();
+    }
+
+    // 檢查目前時間
+    function checkMedicationTime() {
+
+        const now = new Date();
+
+        const today =
+            now.getFullYear() + "-" +
+            String(now.getMonth() + 1).padStart(2, "0") + "-" +
+            String(now.getDate()).padStart(2, "0");
+
+        const currentTime =
+            String(now.getHours()).padStart(2, "0") + ":" +
+            String(now.getMinutes()).padStart(2, "0");
+
+        medications.forEach(function(medicine) {
+
+            const reminderKey = today + "-" + medicine.id;
+
+            // 已服用的藥品不再提醒
+            if (medicine.status === "已服用") {
+                return;
+            }
+
+            // 避免本次開啟頁面重複提醒
+            if (remindedItems.has(reminderKey)) {
+                return;
+            }
+
+            // 到達預定時間
+            if (currentTime === medicine.time) {
+
+                remindedItems.add(reminderKey);
+
+                reminderQueue.push(medicine);
+            }
+        });
+
+        showReminderModal();
+    }
+
+    // 開啟頁面時檢查
+    checkMedicationTime();
+
+    // 每 10 秒檢查一次
+    setInterval(checkMedicationTime, 10000);
+</script>
+
+</body>
+</html>
